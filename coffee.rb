@@ -114,7 +114,6 @@ def make_tex(entrys)
 	return tex
 end
 
-file = nil
 options = Hash.new
 OptionParser.new do |opts|
 	opts.banner = "Usage ./coffe.rb [options] [file]"
@@ -147,6 +146,7 @@ end.parse!
 options[:file] ||= ARGV[0]
 
 unless options[:file] or options.has_key?(:empty)
+	puts "foo"
 	options[:editor] ||= if ENV.key?("EDITOR")
 	  ENV["EDITOR"]
 	elsif File.exists?("/usr/bin/editor")
@@ -164,8 +164,8 @@ end
 
 l = Array.new
 if options[:empty]
-elsif nil != file and File.file?(file)
-	list = File.open(file)
+elsif nil != options[:file] and File.file?(options[:file])
+	list = File.open(options[:file])
 
 	list.each_line do |i|
 		unless i.strip.empty?
