@@ -81,14 +81,13 @@ def make_tex(entrys)
 	tex += "\\pagestyle{empty}"
 	tex += "\n"
 	tex += "\\begin{document}\n"
-	#tex += "\\Huge CofFEe List"
 	tex += "\\section*{\\Huge CofFEe List}"
 	tex += "\n"
 	tex += "\\large\n"
 	tex += "\\textbf{1} Kreuz = \\textbf{1} Kaffee, \\textbf{25} Kreuze = \\textbf{5 €}\\\\\n"
-	#tex += "\n"
+
 	tex += "Falls Zeile bezahlt, durchstreichen und neue Zeile anfangen.\\\\\n"
-	#tex += "\\small\n"
+
 	tex += "Liste wird zusätzlich regelmäßigtm geleert/erneuert\n"
 	tex += "\\large\n"
 	tex += "\n"
