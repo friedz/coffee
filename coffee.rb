@@ -118,6 +118,7 @@ file = nil
 options = Hash.new
 OptionParser.new do |opts|
 	opts.banner = "Usage ./coffe.rb [options] [file]"
+	#opts.banner = "Usage ./#{opts.program_name}.rb [options] [file]"
 	opts.on("-f", "--file=FILE", "use FILE for the list") do |f|
 		options[:file] = f
 	end
@@ -129,6 +130,16 @@ OptionParser.new do |opts|
 	end
 	opts.on("-h", "--help", "show this help message") do
 		puts opts
+		puts "Format of the File:"
+		puts "    Name"
+		puts "    Name,[number]"
+		puts "    Name,[number],[paid]"
+		puts "    Name,,[paid]"
+		puts "0 <= Number <= 25"
+		puts "paid = yes|no (in many languages possible)"
+		puts "\e[33mNote:\e[0m"
+		puts "    \e[33mpaid but not full lines appear \e[32mgreen\e[33m in command line\e[0m"
+		puts "    \e[33moutput and need to be crossed out manually\e[0m"
 		exit
 	end
 end.parse!
