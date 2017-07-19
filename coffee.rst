@@ -50,4 +50,4 @@ Wird `Bezahlt` auf einen Wert für `ja` gesetzt wird die Zeile entfernt wenn sie
 Bezahlt = `ja|nein`
     Es ist auch möglich in vielen Anderen Sprachen `ja` zu schreiben alle nicht bekanten Wörter werden als `nein` interpretiert, insbesondere auch wenn nichts geschrieben ist.
 
-    Mögliche Varianten für `ja` [ `jo`, `jopp`, `ja`, `true`, `1`, `yes`, `si`, `да`, `oui`, `sim`, `ken`, `sea`, `jes`, `はい`, `ndiyo`, `gee`, `haa'n`, `oo`, `是`, `baleh`, `areh`, `na'am`, `a-yo`, `evet` ] die groß und klein Schreibung ist egal.
+    Mögliche Varianten für `ja`: [ `jo`, `jopp`, `ja`, `true`, `1`, `yes`, `si`, `да`, `oui`, `sim`, `ken`, `sea`, `jes`, `はい`, `ndiyo`, `gee`, `haa'n`, `oo`, `是`, `baleh`, `areh`, `na'am`, `a-yo`, `evet` ] die groß und klein Schreibung ist egal.
