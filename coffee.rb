@@ -11,11 +11,7 @@ def ja? s
 	# TODO: kann beliebig um weitere Formen von ja ergänzt werden ;)
 	si = Set.new ["jo", "jopp", "ja", "true", "1", "yes", "si", "да", "oui", "sim", "ken", "sea", "jes", "はい", "ndiyo", "gee", "haa'n", "oo", "是", "baleh", "areh", "na'am", "a-yo", "evet"]
 	s.downcase!
-	if si.member?(s) then
-		return true
-	else
-		return false
-	end
+	return si.member?(s)
 end
 
 class Entry
@@ -38,8 +34,8 @@ class Entry
 		end
 	end
 	def <=>(other)
-		if @name != other.name then
-			return @name <=> other.name
+		if @name.downcase != other.name.downcase then
+			return @name.casecmp(other.name)
 		elsif @number != other.name then
 			return other.number <=> @number
 		elsif @paid == other.paid then
@@ -65,7 +61,6 @@ class Entry
 		(1..25).each do |i|
 			l += " &"
 			if i <= @number then
-				#l += " X"
 				l += " \\!$\\times$"
 			end
 		end
@@ -119,46 +114,88 @@ def make_tex(entrys)
 	return tex
 end
 
+file = nil
+options = Hash.new
+OptionParser.new do |opts|
+	opts.banner = "Usage ./coffe.rb [options] [file]"
+	opts.on("-f", "--file=FILE", "use FILE for the list") do |f|
+		options[:file] = f
+	end
+	opts.on("-0", "--empty", "generate an empty List") do
+		options[:empty] = true
+	end
+	opts.on("-e", "--editor=EDITOR", "open in EDITOR to write list") do |e|
+		options[:editor] = e
+	end
+	opts.on("-h", "--help", "show this help message") do
+		puts opts
+		exit
+	end
+end.parse!
 
-file = ARGV[0]
+options[:file] ||= ARGV[0]
 
-if file == nil then
-	puts "NOPE"
-	abort("We Need A List")
+unless options[:file] or options.has_key?(:empty)
+	options[:editor] ||= if ENV.key?("EDITOR")
+	  ENV["EDITOR"]
+	elsif File.exists?("/usr/bin/editor")
+	  "editor"
+	else
+	  "nano"
+	end
+	options[:file] = "tmp.csv"
+	system(options[:editor], options[:file])
 end
 
-list = File.open(file)
+unless options.has_key?(:empty) or File.file?(options[:file])
+	abort("We Need A List \e[31m(the editor you specified probably doesn't exist)\e[0m")
+end
 
 l = Array.new
+if options[:empty]
+elsif nil != file and File.file?(file)
+	list = File.open(file)
 
-list.each_line do |i|
-	unless i.strip.empty?
-		e = Entry.new(i)
-		l << e
+	list.each_line do |i|
+		unless i.strip.empty?
+			e = Entry.new(i)
+			l << e
+		end
 	end
+	list.close
+else
+	abort("the file must exist")
 end
-list.close
 
 l.select!() do |n|
 	not n.delete?
 end
-l.sort!()
+l.sort!
 l.each do |n|
 	puts n
 end
-puts ""
 File.write("./tmp.tex", make_tex(l))
-print(".")
 `xelatex tmp.tex`
-#print(".")
-#`xelatex tmp.tex`
-#print(".")
-#`xelatex tmp.tex`
-File.delete('./tmp.tex')
-File.delete('./tmp.aux')
-File.delete('./tmp.log')
-File.rename('./tmp.pdf', './coffee.pdf')
-
-#puts make_tex(l)
-
-
+`xelatex tmp.tex`
+`xelatex tmp.tex`
+begin
+	File.delete('./tmp.csv')
+rescue
+end
+begin
+	File.delete('./tmp.tex')
+rescue
+end
+begin
+	File.delete('./tmp.aux')
+rescue
+end
+begin
+	File.delete('./tmp.log')
+rescue
+end
+begin
+	File.rename('./tmp.pdf', './coffee.pdf')
+rescue
+end
+puts "\e[32mdone\e[0m"
