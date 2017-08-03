@@ -36,7 +36,7 @@ class Entry
 	def <=>(other)
 		if @name.downcase != other.name.downcase then
 			return @name.casecmp(other.name)
-		elsif @number != other.name then
+		elsif @number != other.number then
 			return other.number <=> @number
 		elsif @paid == other.paid then
 			return 0
