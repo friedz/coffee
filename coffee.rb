@@ -70,7 +70,9 @@ class Entry
 end
 
 def make_tex(entrys)
-	num_lines = 98
+	# 46 Zeilen auf erster Seite
+	# 52 Zeilen pro Seite
+	num_lines = 202
 	tex = "\\documentclass{article}\n"
 	tex += "\\usepackage{amsmath}\n"
 	tex += "\\usepackage{longtable}\n"
